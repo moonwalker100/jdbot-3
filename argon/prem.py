@@ -423,7 +423,7 @@ async def short4(client, query: CallbackQuery):
     if not await AdminChecker.is_admin(query.from_user.id):
         logging.warning(f"Unauthorized access attempt by user {query.from_user.id}")
         await query.answer(
-            "❌ 𝐘𝐨𝐮 𝐚𝐫𝐞 𝐧𝐨𝐭 𝐚𝐮𝐭𝐡𝐨𝐫𝐢𝐳𝐞𝐝 𝐭𝐨 𝐮𝐬𝐞 𝐭𝐡𝐢𝐬 𝐛𝐮𝐭𝐭𝐨𝐧!",
+            "❌ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪꜱᴇᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ʙᴜᴛᴛᴏɴ !",
             show_alert=True
         )
         return
@@ -437,7 +437,7 @@ async def short4(client, query: CallbackQuery):
         if not config.short_enabled:
             await set_variable("short", True)
         await set_variable("mode", "link")
-        await query.answer("✅ 𝐏𝐞𝐫-𝐥𝐢𝐧𝐤 𝐦𝐨𝐝𝐞 𝐞𝐧𝐚𝐛𝐥𝐞𝐝!", show_alert=True)
+        await query.answer("✅ 𝗣𝗘𝗥-𝗟𝗜𝗡𝗞 𝗠𝗢𝗗𝗘 𝗘𝗡𝗔𝗕𝗟𝗘𝗗 !", show_alert=True)
         await ShortenerManager.refresh_settings(client, query.message)
 
     elif action == "24":
@@ -451,19 +451,19 @@ async def short4(client, query: CallbackQuery):
                 return True, None
             logging.warning(f"Time validation failed for: '{time_str}'")
             return False, (
-                "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐟𝐨𝐫𝐦𝐚𝐭! 𝐔𝐬𝐞: 1h, 30m, 𝐨𝐫 45s\n"
-                "𝐏𝐥𝐞𝐚𝐬𝐞 𝐭𝐫𝐲 𝐚𝐠𝐚𝐢𝐧:"
+                "❌ 𝗜𝗡𝗩𝗔𝗟𝗜𝗗 𝗙𝗢𝗥𝗠𝗔𝗧! ᴜꜱᴇ: 1h, 30m, 𝐨𝐫 45s\n"
+                "ᴘʟᴇᴀꜱᴇ ᴛʀʏ ᴀɢᴀɪɴ:"
             )
 
         try:
             logging.info("Editing message to show time format instructions")
             edited_msg = await query.message.edit(
                 text=(
-                    "⚠️ 𝐒𝐞𝐧𝐝 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐓𝐈𝐎𝐍 𝐓𝐈𝐌𝐄 𝐅𝐨𝐫𝐦𝐚𝐭:\n"
+                    "𝗦𝗘𝗡𝗗 𝗩𝗘𝗥𝗜𝗙𝗜𝗖𝗔𝗧𝗜𝗢𝗡 𝗧𝗜𝗠𝗘 𝗙𝗢𝗥𝗠𝗔𝗧:\n"
                     "<blockquote>"
-                    "• Xh - 𝐟𝐨𝐫 X 𝐡𝐨𝐮𝐫𝐬 (𝐞𝐱: 1h)\n"
-                    "• Xm - 𝐟𝐨𝐫 X 𝐦𝐢𝐧𝐮𝐭𝐞𝐬 (𝐞𝐱: 30m)\n"
-                    "• Xs - 𝐟𝐨𝐫 X 𝐬𝐞𝐜𝐨𝐧𝐝𝐬 (𝐞𝐱: 45s)"
+                    "• Xh - ꜰᴏʀ X 𝗛𝗢𝗨𝗥𝗦 (ᴇx: 1h)\n"
+                    "• Xm - ꜰᴏʀ X 𝗠𝗜𝗡𝗨𝗧𝗘𝗦 (ᴇx: 30m)\n"
+                    "• Xs - ꜰᴏʀ X 𝗦𝗘𝗖𝗢𝗡𝗗𝗦 (ᴇx: 45s)"
                     "</blockquote>"
                 ),
                 reply_markup=ReplyKeyboardMarkup(
@@ -497,7 +497,7 @@ async def short4(client, query: CallbackQuery):
 
             await client.send_message(
                 chat_id=query.from_user.id,
-                text=f"✅ 𝟐𝟒𝐡 𝐦𝐨𝐝𝐞 𝐞𝐧𝐚𝐛𝐥𝐞𝐝!\n⏱️ 𝐕𝐞𝐫𝐢𝐟𝐢𝐜𝐚𝐭𝐢𝐨𝐧 𝐭𝐢𝐦𝐞: {TimeFormatter.format_seconds(seconds)}",
+                text=f"✅ 𝟮𝟰𝗛 𝗠𝗢𝗗𝗘 𝗘𝗡𝗔𝗕𝗟𝗘𝗗!\n⏱️ 𝗩𝗘𝗥𝗜𝗙𝗜𝗖𝗔𝗧𝗜𝗢𝗡 𝗧𝗜𝗠𝗘: {TimeFormatter.format_seconds(seconds)}",
                 reply_markup=ReplyKeyboardRemove(),
             )
             logging.info("24h mode enabled successfully")
