@@ -115,9 +115,9 @@ class ShortenerUI:
             return "❌", "", ""
 
         if config.mode == "24":
-            return "𝟐𝟒𝐇 ✅", "✅", ""
+            return "𝟮𝟰𝗛 ✅", "✅", ""
         elif config.mode == "link":
-            return "𝐏𝐄𝐑 𝐋𝐈𝐍𝐊 ✅", "", "✅"
+            return "𝗣𝗘𝗥 𝗟𝗜𝗡𝗞 ✅", "", "✅"
 
         return "", "", ""
 
@@ -126,35 +126,36 @@ class ShortenerUI:
         """Generate settings caption"""
         mode_display, _, _ = ShortenerUI.get_mode_status(config)
         time_display = TimeFormatter.format_seconds(config.token_time)
+        
+return (
+    f"<blockquote expandable>"
+    f"𝗦𝗛𝗢𝗥𝗧𝗡𝗘𝗥 𝗦𝗘𝗧𝗧𝗜𝗡𝗚𝗦\n"
+    f"𝗦𝗛𝗢𝗥𝗧𝗡𝗘𝗥 𝗠𝗢𝗗𝗘: {mode_display}\n"
+    f"𝗩𝗘𝗥𝗜𝗙𝗜𝗖𝗔𝗧𝗜𝗢𝗡 𝗧𝗜𝗠𝗘: {time_display}\n"
+    f"𝗔𝗣𝗜: {config.api}\n"
+    f"𝗪𝗘𝗕𝗦𝗜𝗧𝗘: {config.website}\n"
+    f"𝗟𝗜𝗡𝗞𝗦 𝗕𝗬𝗣𝗔𝗦𝗦𝗘𝗗: {config.bypass_count}"
+    f"</blockquote>"
+)
 
-        return (
-            f"<blockquote expandable>♻️ 𝐒𝐇𝐎𝐑𝐓𝐍𝐄𝐑 𝐒𝐄𝐓𝐓𝐈𝐍𝐆𝐒 💠</blockquote>\n"
-            f"<blockquote>💥 𝐒𝐇𝐎𝐑𝐓𝐍𝐄𝐑 𝐌𝐎𝐃𝐄: {mode_display}</blockquote>\n"
-            f"<blockquote>⭐ 𝐕𝐄𝐑𝐈𝐅𝐈𝐂𝐀𝐓𝐈𝐎𝐍 𝐓𝐈𝐌𝐄: {time_display}</blockquote>\n"
-            f"<blockquote expandable>⚠️ 𝐀𝐏𝐈: {config.api}</blockquote>\n"
-            f"<blockquote expandable>🌐 𝐖𝐄𝐁𝐒𝐈𝐓𝐄: {config.website}</blockquote>\n"
-            f"<blockquote expandable>𝐋𝐈𝐍𝐊𝐒 𝐁𝐘𝐏𝐀𝐒𝐒𝐄𝐃: {config.bypass_count}</blockquote>"
-        )
+@staticmethod
+def generate_keyboard(config: ShortenerConfig) -> InlineKeyboardMarkup:
+    """Generate inline keyboard"""
+    _, mode_24_check, mode_link_check = ShortenerUI.get_mode_status(config)
 
-    @staticmethod
-    def generate_keyboard(config: ShortenerConfig) -> InlineKeyboardMarkup:
-        """Generate inline keyboard"""
-        _, mode_24_check, mode_link_check = ShortenerUI.get_mode_status(config)
-
-        return InlineKeyboardMarkup([
-            [InlineKeyboardButton("𝐑𝐄𝐌𝐎𝐕𝐄 𝐒𝐇𝐎𝐑𝐓𝐄𝐑 ❌", callback_data="short_rem")],
-            [
-                InlineKeyboardButton(f"𝟐𝟒𝐇 𝐌𝐎𝐃𝐄 {mode_24_check}", callback_data="mode_24"),
-                InlineKeyboardButton(f"𝐏𝐄𝐑 𝐋𝐈𝐍𝐊 𝐌𝐎𝐃𝐄 {mode_link_check}", callback_data="mode_link"),
-            ],
-            [
-                InlineKeyboardButton("𝐂𝐇𝐀𝐍𝐆𝐄 𝐖𝐄𝐁𝐒𝐈𝐓𝐄", callback_data="short_web"),
-                InlineKeyboardButton("𝐂𝐇𝐀𝐍𝐆𝐄 𝐀𝐏𝐈", callback_data="short_api"),
-            ],
-            [InlineKeyboardButton("𝐂𝐋𝐎𝐒𝐄", callback_data="close")],
-        ])
-
-
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton("𝗥𝗘𝗠𝗢𝗩𝗘 𝗦𝗛𝗢𝗥𝗧𝗘𝗡𝗘𝗥", callback_data="short_rem")],
+        [
+            InlineKeyboardButton(f"𝟮𝟰𝗛 𝗠𝗢𝗗𝗘 {mode_24_check}", callback_data="mode_24"),
+            InlineKeyboardButton(f"𝗣𝗘𝗥 𝗟𝗜𝗡𝗞 𝗠𝗢𝗗𝗘 {mode_link_check}", callback_data="mode_link"),
+        ],
+        [
+            InlineKeyboardButton("𝗖𝗛𝗔𝗡𝗚𝗘 𝗪𝗘𝗕𝗦𝗜𝗧𝗘", callback_data="short_web"),
+            InlineKeyboardButton("𝗖𝗛𝗔𝗡𝗚𝗘 𝗔𝗣𝗜", callback_data="short_api"),
+        ],
+        [InlineKeyboardButton("𝗖𝗟𝗢𝗦𝗘", callback_data="close")],
+    ])
+    
 class AdminChecker:
     """Handles admin authorization"""
 
@@ -343,13 +344,13 @@ async def short2(client, query: CallbackQuery):
         def validate_website(url: str) -> tuple:
             if URLValidator.is_valid_website_url(url):
                 return True, None
-            return False, "❌ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐔𝐑𝐋! 𝐏𝐥𝐞𝐚𝐬𝐞 𝐬𝐞𝐧𝐝 𝐚 𝐯𝐚𝐥𝐢𝐝 𝐔𝐑𝐋 𝐥𝐢𝐤𝐞: https://example.com"
+            return False, "❌ ɪɴᴠᴀʟɪᴅ ᴜʀʟ!  ᴘʟᴇᴀꜱᴇ ꜱᴇɴᴅ ᴀ ᴠᴀʟɪᴅ ᴜʀʟ ʟɪᴋᴇ: https://example.com"
 
         website = await ShortenerManager.request_user_input(
             client,
             user_id,
-            "<blockquote expandable>𝐏𝐋𝐄𝐀𝐒𝐄 𝐒𝐄𝐍𝐃 𝐒𝐇𝐎𝐑𝐓𝐍𝐄𝐑 𝐖𝐄𝐁𝐒𝐈𝐓𝐄\n"
-            "𝐅𝐨𝐫𝐦𝐚𝐭: https://example.com</blockquote>",
+            "<blockquote expandable>𝗣𝗟𝗘𝗔𝗦𝗘 𝗦𝗘𝗡𝗗 𝗦𝗛𝗢𝗥𝗧𝗡𝗘𝗥 𝗪𝗘𝗕𝗦𝗜𝗧𝗘\n"
+            "𝗙𝗢𝗥𝗠𝗔𝗧: https://example.com</blockquote>",
             validate_website
         )
 
@@ -358,7 +359,7 @@ async def short2(client, query: CallbackQuery):
             await set_variable("website", website)
             await client.send_message(
                 chat_id=user_id,
-                text="✅ 𝐖𝐄𝐁𝐒𝐈𝐓𝐄 𝐀𝐃𝐃𝐄𝐃 𝐒𝐔𝐂𝐂𝐄𝐒𝐒𝐅𝐔𝐋𝐋𝐘!",
+                text="✅ 𝗪𝗘𝗕𝗦𝗜𝗧𝗘 𝗔𝗗𝗗𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟𝗬!",
                 reply_markup=ReplyKeyboardRemove(),
             )
             await ShortenerManager.refresh_settings(client, query.message)
@@ -371,7 +372,7 @@ async def short2(client, query: CallbackQuery):
         api_key = await ShortenerManager.request_user_input(
             client,
             user_id,
-            "<blockquote expandable>𝐏𝐋𝐄𝐀𝐒𝐄 𝐒𝐄𝐍𝐃 𝐒𝐇𝐎𝐑𝐓𝐍𝐄𝐑 𝐀𝐏𝐈 𝐊𝐄𝐘</blockquote>"
+            "<blockquote expandable>𝗣𝗟𝗘𝗔𝗦𝗘 𝗦𝗘𝗡𝗗 𝗦𝗛𝗢𝗥𝗧𝗡𝗘𝗥 𝗔𝗣𝗜 𝗞𝗘𝗬</blockquote>"
         )
 
         if api_key:
@@ -379,7 +380,7 @@ async def short2(client, query: CallbackQuery):
             await set_variable("api", api_key)
             await client.send_message(
                 chat_id=user_id,
-                text="✅ 𝐀𝐏𝐈 𝐀𝐃𝐃𝐄𝐃 𝐒𝐔𝐂𝐂𝐄𝐒𝐒𝐅𝐔𝐋𝐋𝐘!",
+                text="✅ 𝗔𝗣𝗜 𝗔𝗗𝗗𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟𝗬!",
                 reply_markup=ReplyKeyboardRemove(),
             )
             await ShortenerManager.refresh_settings(client, query.message)
@@ -394,7 +395,7 @@ async def short3(client, query: CallbackQuery):
     if not await AdminChecker.is_admin(query.from_user.id):
         logging.warning(f"Unauthorized access attempt by user {query.from_user.id}")
         await query.answer(
-            "❌ 𝐘𝐨𝐮 𝐚𝐫𝐞 𝐧𝐨𝐭 𝐚𝐮𝐭𝐡𝐨𝐫𝐢𝐳𝐞𝐝 𝐭𝐨 𝐮𝐬𝐞 𝐭𝐡𝐢𝐬 𝐛𝐮𝐭𝐭𝐨𝐧!",
+            "❌ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪꜱᴇᴅ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ ʙᴜᴛᴛᴏɴ !",
             show_alert=True
         )
         return
@@ -405,12 +406,12 @@ async def short3(client, query: CallbackQuery):
         logging.info("Disabling shortener")
         await set_variable("short", False)
         await set_variable("mode", None)
-        await query.answer("✅ 𝐒𝐡𝐨𝐫𝐭𝐞𝐧𝐞𝐫 𝐫𝐞𝐦𝐨𝐯𝐞𝐝 𝐬𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲!", show_alert=True)
+        await query.answer("✅ 𝗦𝗛𝗢𝗥𝗧𝗡𝗘𝗥 𝗥𝗘𝗠𝗢𝗩𝗘 𝗦𝗨𝗖𝗖𝗘𝗦𝗦𝗙𝗨𝗟𝗟𝗬!", show_alert=True)
         await ShortenerManager.refresh_settings(client, query.message)
     else:
         logging.info("Shortener already disabled")
         await query.answer(
-            "⚠️ 𝐒𝐡𝐨𝐫𝐭𝐞𝐧𝐞𝐫 𝐢𝐬 𝐚𝐥𝐫𝐞𝐚𝐝𝐲 𝐝𝐢𝐬𝐚𝐛𝐥𝐞𝐝!",
+            "⚠️ 𝗦𝗛𝗢𝗥𝗧𝗡𝗘𝗥 𝗜𝗦 𝗔𝗟𝗥𝗘𝗔𝗗𝗬 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗!",
             show_alert=True
         )
 
